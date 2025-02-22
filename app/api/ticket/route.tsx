@@ -1,16 +1,14 @@
 import { ImageResponse } from "next/og";
-// App router includes @vercel/og.
-// No need to install it.
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
+
     const hasTitle = searchParams.has("name");
     const hasGithub = searchParams.has("github");
+
     const title = hasTitle ? searchParams.get("name")?.slice(0, 100) : "Guest";
-    const github = hasGithub
-      ? searchParams.get("github")?.slice(0, 100)
-      : "@github";
+    const github = hasGithub ? searchParams.get("github")?.slice(0, 100) : "@github";
 
     return new ImageResponse(
       (
@@ -36,14 +34,10 @@ export async function GET(req: Request) {
             }}
           >
             <img
+              width="1000"
+              height="600"
+              src="https://images.unsplash.com/photo-1701772165288-39c9ef3775c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt=""
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              src={
-                "https://imgs.search.brave.com/REDM8Px3QsQ4x3SzSc0HmSbGtYzskNYPItuwN76YTFY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi8zLzM0L0h5/ZHJvY2hvZXJpc19o/eWRyb2NoYWVyaXNf/aW5fQnJhemlsX2lu/X1BldHIlQzMlQjNw/b2xpcyUyQ19SaW9f/ZGVfSmFuZWlybyUy/Q19CcmF6aWxfMDku/anBnLzUxMnB4LUh5/ZHJvY2hvZXJpc19o/eWRyb2NoYWVyaXNf/aW5fQnJhemlsX2lu/X1BldHIlQzMlQjNw/b2xpcyUyQ19SaW9f/ZGVfSmFuZWlybyUy/Q19CcmF6aWxfMDku/anBn"
-              }
             />
           </div>
           <div
@@ -65,8 +59,10 @@ export async function GET(req: Request) {
         height: 630,
       }
     );
-  } catch (e: any) {
-    console.log(`${e.message}`);
+  }
+  catch (error: any) {
+    console.log(error.message);
+
     return new Response(`Failed to generate the image`, {
       status: 500,
     });

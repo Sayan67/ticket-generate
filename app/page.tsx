@@ -17,21 +17,7 @@ export default function Home() {
   });
 
   function handleTicketGenerate() {
-    // fetch("/api/ticket", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ name, github, type }),
-    // })
-    //   .then((res) => res.blob())
-    //   .then((blob) => {
-    //     const url = URL.createObjectURL(blob);
-    //     setImg(url);
-    //   });
-    const ticketUrl = `/api/ticket?name=${encodeURIComponent(
-      name
-    )}&github=${encodeURIComponent(github)}&type=${encodeURIComponent(type)}`;
+    const ticketUrl = `/api/ticket?name=${encodeURIComponent(name)}&github=${encodeURIComponent(github)}&type=${encodeURIComponent(type)}`;
     setImg(ticketUrl);
   }
 
