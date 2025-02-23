@@ -1,56 +1,79 @@
 import { ImageResponse } from "next/og";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
 
-    const hasTitle = searchParams.has("name");
-    const hasGithub = searchParams.has("github");
+    const hasTitle = searchParams.has('name');
+    const hasGithub = searchParams.has('github');
 
-    const title = hasTitle ? searchParams.get("name")?.slice(0, 100) : "Guest";
-    const github = hasGithub ? searchParams.get("github")?.slice(0, 100) : "@github";
+    if (!hasTitle || !hasGithub) {
+      return new NextResponse("Missing required parameters", {
+        status: 400
+      });
+    }
+
+    const name = searchParams.get('name');
+    const username = searchParams.get('github');
+
+    const title = name === '' ? 'Guest' : name;
+    const github = username === '' ? '@github' : username;
 
     return new ImageResponse(
       (
         <div
           style={{
-            backgroundColor: "black",
             height: "100%",
             width: "100%",
             display: "flex",
-            textAlign: "center",
             alignItems: "center",
             justifyContent: "center",
-            flexDirection: "column",
-            flexWrap: "nowrap",
+            backgroundColor: "black",
+            position: "relative",
           }}
         >
+          {/* Image container */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              justifyItems: "center",
+              width: "100%",
+              height: "100%",
+              position: "relative",
             }}
           >
-            <img
-              width="1000"
-              height="600"
-              src="https://images.unsplash.com/photo-1701772165288-39c9ef3775c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
+            {/* Semi-transparent overlay for better text visibility */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
+              }}
             />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              justifyItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <p className="flex">{title}</p>
-            <p className="flex">{github}</p>
+
+            <img
+              src="https://images.unsplash.com/photo-1701772165288-39c9ef3775c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                position: "absolute",
+              }}
+            />
+
+            <div tw="flex flex-col items-center justify-center relative">
+              <span tw="text-5xl font-bold py-12">
+                {title}
+              </span>
+              <span tw="text-3xl font-medium">
+                {github}
+              </span>
+            </div>
           </div>
         </div>
       ),
@@ -63,8 +86,8 @@ export async function GET(req: Request) {
   catch (error: any) {
     console.log(error.message);
 
-    return new Response(`Failed to generate the image`, {
-      status: 500,
+    return new NextResponse("Failed to generate the image", {
+      status: 500
     });
   }
 }

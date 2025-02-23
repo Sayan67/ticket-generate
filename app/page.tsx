@@ -25,24 +25,24 @@ export default function Home() {
     if (window) {
       const socialLinks = {
         twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-          window.location.origin + img
+          process.env.NEXT_PUBLIC_URL + img
         )}&text=Check out my ticket!`,
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-          window.location.origin + img
+          process.env.NEXT_PUBLIC_URL + img
         )}`,
         linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-          window.location.origin + img
+          process.env.NEXT_PUBLIC_URL + img
         )}`,
         whatsapp: `https://api.whatsapp.com/send?text=Check out my ticket! ${encodeURIComponent(
-          window.location.origin + img
+          process.env.NEXT_PUBLIC_URL + img
         )}`,
         telegram: `https://t.me/share/url?url=${encodeURIComponent(
-          window.location.origin + img
+          process.env.NEXT_PUBLIC_URL + img
         )}&text=Check out my ticket!`,
       };
       setSocials(socialLinks);
     }
-  }, []);
+  }, [img]);
 
   return (
     <div
