@@ -23,17 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta
-          property="og:image"
-          content={`${process.env.NEXT_PUBLIC_URL}/api/ticket?name=&github=&type=standard`}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-black text-white antialiased`}
-      >
         {children}
-      </body>
     </html>
   );
 }
